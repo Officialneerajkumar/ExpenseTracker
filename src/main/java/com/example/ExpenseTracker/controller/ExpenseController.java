@@ -2,7 +2,7 @@ package com.example.ExpenseTracker.controller;
 
 import com.example.ExpenseTracker.model.Expense;
 import com.example.ExpenseTracker.service.ExpenseService;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

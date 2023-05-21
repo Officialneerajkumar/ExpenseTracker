@@ -6,7 +6,7 @@ import com.example.ExpenseTracker.dto.SignUpInput;
 import com.example.ExpenseTracker.dto.SignUpOutput;
 import com.example.ExpenseTracker.service.AuthService;
 import com.example.ExpenseTracker.service.UserService;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

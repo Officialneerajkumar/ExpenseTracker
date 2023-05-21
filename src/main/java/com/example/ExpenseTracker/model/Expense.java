@@ -1,7 +1,7 @@
 package com.example.ExpenseTracker.model;
 
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

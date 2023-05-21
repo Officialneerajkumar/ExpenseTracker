@@ -1,10 +1,13 @@
 package com.example.ExpenseTracker.model;
 
 import jakarta.persistence.*;
-import javax.validation.constraints.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import jakarta.validation.constraints.*;
+
 
 @Data
 @NoArgsConstructor
