@@ -2,6 +2,7 @@ package com.example.ExpenseTracker.service;
 
 import com.example.ExpenseTracker.dao.ExpenseRepo;
 import com.example.ExpenseTracker.model.Expense;
+import com.example.ExpenseTracker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExpenseService {
@@ -82,5 +85,42 @@ public class ExpenseService {
     public ResponseEntity<List<Expense>> getExpenseByDate(LocalDate date) {
         List<Expense> expenseList = expenseRepo.findByDate(date);
         return new ResponseEntity<>(expenseList,HttpStatus.FOUND);
+    }
+
+    public List<Expense> getExpensesByDate(LocalDate parsedDate) {
+        return expenseRepo.findByDate(parsedDate);
+    }
+
+    public Map<LocalDate, Double> getMonthlyReport(User user, LocalDate monthDate) {
+        LocalDate startOfMonth = monthDate.withDayOfMonth(1);
+        LocalDate endOfMonth = monthDate.withDayOfMonth(monthDate.lengthOfMonth());
+        Map<LocalDate, Double> expenseMap = new HashMap<>();
+        List<Expense> expenses = expenseRepo.findByUserAndDateBetween(user, startOfMonth, endOfMonth);
+
+        for (Expense expense : expenses) {
+            LocalDate date = expense.getDate();
+            double price = expense.getPrice();
+            if (expenseMap.containsKey(date)) {
+                double currentTotal = expenseMap.get(date);
+                expenseMap.put(date, currentTotal + price);
+            } else {
+                expenseMap.put(date, price);
+            }
+        }
+        return expenseMap;
+
+    }
+
+    public Double getTotalExpenditure(User user, LocalDate monthDate) {
+        LocalDate startOfMonth = monthDate.withDayOfMonth(1);
+        LocalDate endOfMonth = monthDate.withDayOfMonth(monthDate.lengthOfMonth());
+        List<Expense> expenses = expenseRepo.findByUserAndDateBetween(user, startOfMonth, endOfMonth);
+
+        double totalExpenditure = 0.0;
+        for (Expense expense : expenses) {
+            double price = expense.getPrice();
+            totalExpenditure += price;
+        }
+        return totalExpenditure;
     }
 }
