@@ -1,5 +1,6 @@
 package com.example.ExpenseTracker.service;
 
+import com.example.ExpenseTracker.dao.AuthTokenRepo;
 import com.example.ExpenseTracker.dao.UserRepo;
 import com.example.ExpenseTracker.dto.SignInInput;
 import com.example.ExpenseTracker.dto.SignInOutput;
@@ -8,10 +9,13 @@ import com.example.ExpenseTracker.dto.SignUpOutput;
 import com.example.ExpenseTracker.model.AuthToken;
 import com.example.ExpenseTracker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import jakarta.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,6 +24,8 @@ public class UserService {
     private UserRepo userRepo;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private AuthTokenRepo authTokenRepo;
     public SignUpOutput SignUp(SignUpInput signUpDto) {
         //check if user exists or not based on email
         User user = userRepo.findFirstByEmail(signUpDto.getEmail());
@@ -100,5 +106,10 @@ public class UserService {
 
         return new SignInOutput(token.getToken());
 
+    }
+
+    public ResponseEntity<User> getUser(String token) {
+        User user = authTokenRepo.findFirstByToken(token).getUser();
+        return new ResponseEntity<>(user, HttpStatus.FOUND);
     }
 }

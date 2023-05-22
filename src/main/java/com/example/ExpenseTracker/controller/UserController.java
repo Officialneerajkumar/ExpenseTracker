@@ -4,13 +4,17 @@ import com.example.ExpenseTracker.dto.SignInInput;
 import com.example.ExpenseTracker.dto.SignInOutput;
 import com.example.ExpenseTracker.dto.SignUpInput;
 import com.example.ExpenseTracker.dto.SignUpOutput;
+import com.example.ExpenseTracker.model.User;
 import com.example.ExpenseTracker.service.AuthService;
 import com.example.ExpenseTracker.service.UserService;
+import com.sun.java.accessibility.util.GUIInitializedListener;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -49,5 +53,9 @@ public class UserController {
         }
 
         return new ResponseEntity<String>(msg , status);
+    }
+    @GetMapping("/get-user-by-token")
+    public ResponseEntity<User> getByToken(@RequestParam String token){
+        return userService.getUser(token);
     }
 }

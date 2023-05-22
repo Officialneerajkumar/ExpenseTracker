@@ -1,6 +1,5 @@
 package com.example.ExpenseTracker.controller;
 
-import com.example.ExpenseTracker.dao.AuthTokenRepo;
 import com.example.ExpenseTracker.dao.UserRepo;
 import com.example.ExpenseTracker.model.Expense;
 import com.example.ExpenseTracker.model.User;

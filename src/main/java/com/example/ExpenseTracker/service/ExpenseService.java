@@ -28,8 +28,8 @@ public class ExpenseService {
         if(authService.authenticateUser(token)){
             LocalDate currDate = LocalDate.now();
             LocalTime currTime = LocalTime.now();
-            expense.setDate(currDate);
-            expense.setTime(currTime);
+            expense.setDate(currDate.toString());
+            expense.setTime(currTime.toString());
             savedExpenseId = expenseRepo.save(expense).getExpenseId();
             status=HttpStatus.CREATED;
         }else{
@@ -56,8 +56,8 @@ public class ExpenseService {
             newDataExpense.setPrice(expenseData.getPrice());
             LocalDate currDate = LocalDate.now();
             LocalTime currTime = LocalTime.now();
-            newDataExpense.setDate(currDate);
-            newDataExpense.setTime(currTime);
+            newDataExpense.setDate(currDate.toString());
+            newDataExpense.setTime(currTime.toString());
             expenseRepo.save(newDataExpense);
             message = "Expense Updated !!!";
             status=HttpStatus.CREATED;
@@ -98,7 +98,7 @@ public class ExpenseService {
         List<Expense> expenses = expenseRepo.findByUserAndDateBetween(user, startOfMonth, endOfMonth);
 
         for (Expense expense : expenses) {
-            LocalDate date = expense.getDate();
+            LocalDate date = LocalDate.parse(expense.getDate());
             double price = expense.getPrice();
             if (expenseMap.containsKey(date)) {
                 double currentTotal = expenseMap.get(date);
